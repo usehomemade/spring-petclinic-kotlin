@@ -1,0 +1,25 @@
+{
+  "$schema": "https://homemade.dev/schemas/latest/config.json",
+  "size": "small",
+  "setup": [],
+  "warmup": [
+    "mise exec java@temurin-17 -- ./gradlew --no-daemon dependencies",
+    "mise exec java@temurin-17 -- ./gradlew --no-daemon classes"
+  ],
+  "install": [
+    "mise exec java@temurin-17 -- ./gradlew --no-daemon dependencies",
+    "mise exec java@temurin-17 -- ./gradlew --no-daemon classes"
+  ],
+  "services": {
+    "web": {
+      "cmd": "exec mise exec java@temurin-17 -- ./gradlew --no-daemon bootRun --args=\"--server.address=0.0.0.0 --server.port=$PORT\"",
+      "port": 8080,
+      "url": true,
+      "healthcheck": {
+        "path": "/"
+      },
+      "displayName": "Petclinic"
+    }
+  },
+  "env_schema": []
+}
