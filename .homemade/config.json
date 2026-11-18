@@ -1,0 +1,23 @@
+{
+  "$schema": "https://homemade.dev/schemas/latest/config.json",
+  "size": "small",
+  "setup": [],
+  "warmup": [
+    "mise exec java@temurin-17 -- ./gradlew --no-daemon dependencies classes"
+  ],
+  "install": [
+    "mise exec java@temurin-17 -- ./gradlew --no-daemon dependencies"
+  ],
+  "services": {
+    "web": {
+      "cmd": "mise exec java@temurin-17 -- ./gradlew --no-daemon bootRun --args=\"--server.address=0.0.0.0 --server.port=$PORT --spring.thymeleaf.cache=false --spring.thymeleaf.prefix=file:src/main/resources/templates/ --spring.web.resources.static-locations[0]=file:src/main/resources/static/ --spring.web.resources.static-locations[1]=classpath:/static/ --spring.web.resources.cache.period=0 --spring.web.resources.cache.cachecontrol.max-age=0\"",
+      "port": 8080,
+      "url": true,
+      "healthcheck": {
+        "path": "/"
+      },
+      "displayName": "Petclinic"
+    }
+  },
+  "env_schema": []
+}
